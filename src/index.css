@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  @apply antialiased;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  @apply bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50;
+  font-family: 'Inter', 'Geist', system-ui, sans-serif;
+}
+
+/* Smooth transitions for interactive elements */
+button, a, [role="button"] {
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* Remove scrollbar styling for modern look */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(167, 139, 250, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(167, 139, 250, 0.5);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-color: rgba(167, 139, 250, 0.3) rgba(15, 23, 42, 0.5);
+  scrollbar-width: thin;
+}
+
+/* Bottom Sheet Mobile Styles */
+@media (max-width: 768px) {
+  .bottom-sheet-overlay {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Backdrop blur for modals */
+.modal-backdrop {
+  @apply fixed inset-0 bg-black/30 backdrop-blur-sm;
+}
