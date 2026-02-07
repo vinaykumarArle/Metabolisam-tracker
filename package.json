@@ -2,7 +2,7 @@
   "name": "rebase",
   "private": true,
   "version": "1.0.0",
-  "description": "REBASE - Metabolic Journal PWA",
+  "description": "REBASE - Metabolic Journal",
   "type": "module",
   "homepage": "https://vinaykumarArle.github.io/Metabolisam-tracker",
   "scripts": {
