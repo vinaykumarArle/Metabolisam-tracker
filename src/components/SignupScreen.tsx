@@ -16,6 +16,7 @@ export const SignupScreen: React.FC<SignupScreenProps> = ({ onSignupSuccess, onS
     age: '',
     height_cm: '',
     current_weight_kg: '',
+    gender: '',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -45,6 +46,7 @@ export const SignupScreen: React.FC<SignupScreenProps> = ({ onSignupSuccess, onS
       current_weight_kg: formData.current_weight_kg
         ? parseFloat(formData.current_weight_kg)
         : undefined,
+      gender: (formData.gender as 'male' | 'female' | 'other') || undefined,
     });
 
     if (result.success) {
@@ -156,58 +158,81 @@ export const SignupScreen: React.FC<SignupScreenProps> = ({ onSignupSuccess, onS
             </div>
 
             {/* Metrics Grid */}
-            <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-200">
-              {/* Age */}
+            <div className="pt-4 border-t border-gray-200 space-y-4">
+              {/* Gender */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Age</label>
-                <div className="relative">
-                  <Calendar className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
-                  <input
-                    type="number"
-                    name="age"
-                    value={formData.age}
-                    onChange={handleChange}
-                    placeholder="25"
-                    className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-2xl focus:outline-none focus:border-blue-500 transition-colors"
-                  />
+                <label className="block text-sm font-medium text-gray-700 mb-3">Gender</label>
+                <div className="flex gap-4">
+                  {['male', 'female', 'other'].map((option) => (
+                    <label key={option} className="flex items-center cursor-pointer">
+                      <input
+                        type="radio"
+                        name="gender"
+                        value={option}
+                        checked={formData.gender === option}
+                        onChange={handleChange}
+                        className="w-4 h-4 text-blue-600 cursor-pointer"
+                      />
+                      <span className="ml-2 text-sm text-gray-700 capitalize">{option}</span>
+                    </label>
+                  ))}
                 </div>
               </div>
 
-              {/* Height */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Height (cm)
-                </label>
-                <div className="relative">
-                  <Ruler className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
-                  <input
-                    type="number"
-                    name="height_cm"
-                    value={formData.height_cm}
-                    onChange={handleChange}
-                    placeholder="180"
-                    step="0.1"
-                    className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-2xl focus:outline-none focus:border-blue-500 transition-colors"
-                  />
+              {/* Age, Height, Weight Grid */}
+              <div className="grid grid-cols-2 gap-4">
+                {/* Age */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Age</label>
+                  <div className="relative">
+                    <Calendar className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
+                    <input
+                      type="number"
+                      name="age"
+                      value={formData.age}
+                      onChange={handleChange}
+                      placeholder="25"
+                      className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-2xl focus:outline-none focus:border-blue-500 transition-colors"
+                    />
+                  </div>
                 </div>
-              </div>
 
-              {/* Weight */}
-              <div className="col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Current Weight (kg)
-                </label>
-                <div className="relative">
-                  <Weight className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
-                  <input
-                    type="number"
-                    name="current_weight_kg"
-                    value={formData.current_weight_kg}
-                    onChange={handleChange}
-                    placeholder="75"
-                    step="0.1"
-                    className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-2xl focus:outline-none focus:border-blue-500 transition-colors"
-                  />
+                {/* Height */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Height (cm)
+                  </label>
+                  <div className="relative">
+                    <Ruler className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
+                    <input
+                      type="number"
+                      name="height_cm"
+                      value={formData.height_cm}
+                      onChange={handleChange}
+                      placeholder="180"
+                      step="0.1"
+                      className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-2xl focus:outline-none focus:border-blue-500 transition-colors"
+                    />
+                  </div>
+                </div>
+
+                {/* Weight */}
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Current Weight (kg)
+                  </label>
+                  <div className="relative">
+                    <Weight className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
+                    <input
+                      type="number"
+                      name="current_weight_kg"
+                      value={formData.current_weight_kg}
+                      onChange={handleChange}
+                      placeholder="75"
+                      step="0.1"
+                      className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-2xl focus:outline-none focus:border-blue-500 transition-colors"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

@@ -10,6 +10,7 @@ export interface SignUpData extends AuthCredentials {
   age?: number;
   height_cm?: number;
   current_weight_kg?: number;
+  gender?: 'male' | 'female' | 'other';
 }
 
 export const authService = {

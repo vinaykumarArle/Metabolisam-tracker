@@ -17,6 +17,7 @@ export interface User {
   age?: number;
   height_cm?: number;
   current_weight_kg?: number;
+  gender?: 'male' | 'female' | 'other';
 }
 
 export interface DayData {
