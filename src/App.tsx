@@ -10,11 +10,12 @@ import {
   LoginScreen,
   SignupScreen,
   ProfileScreen,
+  StatisticsScreen,
 } from './components';
 import { useMetabolicStore } from './store/metabolicStore';
 import { useAuthStore } from './store/authStore';
 
-type AppScreen = 'app' | 'login' | 'signup' | 'profile';
+type AppScreen = 'app' | 'login' | 'signup' | 'profile' | 'stats';
 
 function App() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -123,6 +124,14 @@ function App() {
     );
   }
 
+  if (currentScreen === 'stats') {
+    return (
+      <StatisticsScreen
+        onBack={() => setCurrentScreen('app')}
+      />
+    );
+  }
+
   // Main app screen
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex flex-col items-center overflow-x-hidden relative">
@@ -138,12 +147,20 @@ function App() {
         <div className="sticky top-0 z-20 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border-b border-violet-500/30 px-3 sm:px-6 py-4 sm:py-6 backdrop-blur-xl shadow-lg shadow-violet-500/10">
           <div className="flex items-center justify-between">
             <Header />
-            <button
-              onClick={() => setCurrentScreen('profile')}
-              className="ml-4 px-4 py-2 bg-violet-500/20 text-violet-300 rounded-full hover:bg-violet-500/30 transition-colors text-sm font-medium"
-            >
-              {user?.username}
-            </button>
+            <div className="flex items-center gap-2 ml-4">
+              <button
+                onClick={() => setCurrentScreen('stats')}
+                className="px-4 py-2 bg-gradient-to-r from-violet-500/20 to-pink-500/20 text-violet-300 rounded-full hover:from-violet-500/30 hover:to-pink-500/30 transition-colors text-sm font-medium"
+              >
+                Stats
+              </button>
+              <button
+                onClick={() => setCurrentScreen('profile')}
+                className="px-4 py-2 bg-violet-500/20 text-violet-300 rounded-full hover:bg-violet-500/30 transition-colors text-sm font-medium"
+              >
+                {user?.username}
+              </button>
+            </div>
           </div>
         </div>
 

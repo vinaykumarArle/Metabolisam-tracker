@@ -8,4 +8,4 @@ export { DaySummary } from './DaySummary';
 export { InputSuggestions } from './InputSuggestions';
 export { LoginScreen } from './LoginScreen';
 export { SignupScreen } from './SignupScreen';
-export { ProfileScreen } from './ProfileScreen';
+export { ProfileScreen } from './ProfileScreen';export { StatisticsScreen } from './StatisticsScreen';
