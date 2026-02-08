@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { authService } from '../lib/authService';
+import { migrationService } from '../lib/migrationService';
 
 interface User {
   id: string;
@@ -50,6 +51,13 @@ export const useAuthStore = create<AuthStore>()(
               session: result.session,
               isLoading: false,
             });
+
+            // Migrate data from localStorage if not done yet
+            if (!migrationService.isMigrationDone()) {
+              const migrationResult = await migrationService.migrateFromLocalStorage(result.user.id);
+              console.log('Migration result:', migrationResult);
+            }
+
             return true;
           } else {
             set({ error: result.error || 'Login failed', isLoading: false });
