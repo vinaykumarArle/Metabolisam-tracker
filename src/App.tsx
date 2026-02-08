@@ -7,11 +7,20 @@ import {
   JournalCard,
   FloatingActionButton,
   DaySummary,
+  LoginScreen,
+  SignupScreen,
+  ProfileScreen,
 } from './components';
 import { useMetabolicStore } from './store/metabolicStore';
+import { useAuthStore } from './store/authStore';
+
+type AppScreen = 'app' | 'login' | 'signup' | 'profile';
 
 function App() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [currentScreen, setCurrentScreen] = useState<AppScreen>('login');
+
+  const { user, isInitialized, checkAuth } = useAuthStore();
   const {
     selectedDate,
     setSelectedDate,
@@ -23,6 +32,22 @@ function App() {
     getDayData,
     daysData,
   } = useMetabolicStore();
+
+  // Check authentication on mount
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  // Update current screen based on auth state
+  useEffect(() => {
+    if (!isInitialized) return;
+
+    if (user) {
+      setCurrentScreen('app');
+    } else {
+      setCurrentScreen('login');
+    }
+  }, [user, isInitialized]);
 
   // Helper function to get today's date in local timezone
   const getTodayDate = (): string => {
@@ -51,6 +76,54 @@ function App() {
     completeDay(selectedDate, summary);
   };
 
+  const handleLoginSuccess = () => {
+    setCurrentScreen('app');
+  };
+
+  const handleSignupSuccess = () => {
+    setCurrentScreen('login');
+  };
+
+  // Loading state
+  if (!isInitialized) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-white font-semibold">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Render based on current screen
+  if (currentScreen === 'login') {
+    return (
+      <LoginScreen
+        onLoginSuccess={handleLoginSuccess}
+        onSwitchToSignup={() => setCurrentScreen('signup')}
+      />
+    );
+  }
+
+  if (currentScreen === 'signup') {
+    return (
+      <SignupScreen
+        onSignupSuccess={handleSignupSuccess}
+        onSwitchToLogin={() => setCurrentScreen('login')}
+      />
+    );
+  }
+
+  if (currentScreen === 'profile') {
+    return (
+      <ProfileScreen
+        onBack={() => setCurrentScreen('app')}
+      />
+    );
+  }
+
+  // Main app screen
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex flex-col items-center overflow-x-hidden relative">
       {/* Animated background elements */}
@@ -61,8 +134,18 @@ function App() {
 
       {/* Container wrapper for desktop width constraint */}
       <div className="w-full max-w-2xl flex flex-col min-h-screen relative z-10">
-        {/* Header */}
-        <Header />
+        {/* Header with Profile Button */}
+        <div className="sticky top-0 z-20 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border-b border-violet-500/30 px-3 sm:px-6 py-4 sm:py-6 backdrop-blur-xl shadow-lg shadow-violet-500/10">
+          <div className="flex items-center justify-between">
+            <Header />
+            <button
+              onClick={() => setCurrentScreen('profile')}
+              className="ml-4 px-4 py-2 bg-violet-500/20 text-violet-300 rounded-full hover:bg-violet-500/30 transition-colors text-sm font-medium"
+            >
+              {user?.username}
+            </button>
+          </div>
+        </div>
 
         {/* Calendar Strip */}
         <DayCalendarStrip selectedDate={selectedDate} onDateSelect={setSelectedDate} daysData={daysData} />

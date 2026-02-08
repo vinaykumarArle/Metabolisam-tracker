@@ -6,3 +6,6 @@ export { JournalCard } from './JournalCard';
 export { FloatingActionButton } from './FloatingActionButton';
 export { DaySummary } from './DaySummary';
 export { InputSuggestions } from './InputSuggestions';
+export { LoginScreen } from './LoginScreen';
+export { SignupScreen } from './SignupScreen';
+export { ProfileScreen } from './ProfileScreen';
